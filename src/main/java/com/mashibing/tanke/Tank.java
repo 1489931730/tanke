@@ -13,16 +13,21 @@ public class Tank {
     private static final int SPEED = 10;
 
     private boolean moving = false;
+    private TankeFrame tf = null;
 
-    public Tank(int x, int y, Dir dir) {
+
+    public Tank(int x, int y, Dir dir,TankeFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.tf = tf;
     }
 
     public void paint(Graphics graphics) {
-
+        Color color = graphics.getColor();
+        graphics.setColor(Color.BLUE);
         graphics.fillRect(x, y, 50, 50);
+        graphics.setColor(color);
         move();
     }
 
@@ -59,5 +64,9 @@ public class Tank {
 
     public void setMoving(boolean moving) {
         this.moving = moving;
+    }
+
+    public void fire() {
+        tf.bullet = new Bullet(this.x,this.y,this.dir);
     }
 }

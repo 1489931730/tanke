@@ -2,6 +2,7 @@ package com.mashibing.tanke;
 
 import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.w3c.dom.ls.LSOutput;
 
 import java.awt.*;
@@ -17,13 +18,14 @@ import java.awt.event.WindowEvent;
  */
 public class TankeFrame extends Frame {
 
-    Tank tank = new Tank(200, 200, Dir.DOWN);
+    Tank tank = new Tank(200, 200, Dir.DOWN,this);
 
-    Bullet bullet = new Bullet(220,220,Dir.DOWN);
+    Bullet bullet = new Bullet(220, 220, Dir.DOWN);
+    static final int GAME_WIDTH = 800, GAME_HEIGHT = 800;
 
     public TankeFrame() {
         this.setVisible(true);
-        this.setSize(800, 600);
+        this.setSize(GAME_WIDTH, GAME_HEIGHT);
         this.setResizable(false);
         this.setTitle("tan-ke");
         this.addKeyListener(new MyKeyListener());
@@ -34,6 +36,23 @@ public class TankeFrame extends Frame {
             }
         });
 
+    }
+
+    Image offScreenImage = null;
+    //解决双缓冲
+    @Override
+    public void update(Graphics graphics){
+
+        if (offScreenImage == null){
+            offScreenImage = this.createImage(GAME_WIDTH,GAME_HEIGHT);
+        }
+        Graphics gOffScreen = offScreenImage.getGraphics();
+        Color color = gOffScreen.getColor();
+        gOffScreen.setColor(Color.BLACK);
+        gOffScreen.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
+        gOffScreen.setColor(color);
+        paint(gOffScreen);
+        graphics.drawImage(offScreenImage,0,0,null);
     }
 
 
@@ -98,6 +117,9 @@ public class TankeFrame extends Frame {
                     break;
                 case KeyEvent.VK_DOWN:
                     bD = false;
+                    break;
+                case KeyEvent.VK_CONTROL:
+                    tank.fire();
                     break;
                 default:
                     break;
