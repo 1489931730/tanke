@@ -1,5 +1,6 @@
 package com.mashibing.tanke;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
 import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
 import org.w3c.dom.ls.LSOutput;
 
@@ -16,7 +17,8 @@ import java.awt.event.WindowEvent;
  */
 public class TankeFrame extends Frame {
 
-    Integer x = 200, y = 200;
+    Tank tank = new Tank(200,200,Dir.DOWN);
+
 
     public TankeFrame() {
         this.setVisible(true);
@@ -31,73 +33,85 @@ public class TankeFrame extends Frame {
             }
         });
 
-        }
+    }
 
 
-        @Override
-        public void paint (Graphics graphics){
-            graphics.fillRect(x, y, 50, 50);
-            //x += 10;
-            //y+=10;
-        }
+    @Override
+    public void paint(Graphics graphics) {
 
-        // 处理键盘事件
-        class MyKeyListener extends KeyAdapter {
+        tank.paint(graphics);
+    }
+
+    // 处理键盘事件
+    class MyKeyListener extends KeyAdapter {
 
         boolean bR = false;
         boolean bL = false;
         boolean bU = false;
         boolean bD = false;
 
-            // 按下按钮触发
-            @Override
-            public void keyPressed(KeyEvent e) {
-                int key = e.getKeyCode();
-                System.out.println("-----------------");
-                switch (key) {
-                    case KeyEvent.VK_LEFT:
-                        bL = true;
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        bR = true;
-                        break;
-                    case KeyEvent.VK_UP:
-                        bU = true;
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        bD = true;
-                        break;
-                    default:
-                        break;
-                }
+        // 按下按钮触发
+        @Override
+        public void keyPressed(KeyEvent e) {
+            int key = e.getKeyCode();
+            System.out.println("-----------------");
+            switch (key) {
+                case KeyEvent.VK_LEFT:
+                    bL = true;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    bR = true;
+                    break;
+                case KeyEvent.VK_UP:
+                    bU = true;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    bD = true;
+                    break;
+                default:
+                    break;
+            }
 //            x += 200;
 //            repaint();
 //            System.out.println("key pressed");
-            }
-
-            // 抬起按钮触发
-            @Override
-            public void keyReleased(KeyEvent e) {
-                System.out.println("key released");
-                int key = e.getKeyCode();
-                System.out.println("-----------------");
-                switch (key) {
-                    case KeyEvent.VK_LEFT:
-                        bL = false;
-                        break;
-                    case KeyEvent.VK_RIGHT:
-                        bR = false;
-                        break;
-                    case KeyEvent.VK_UP:
-                        bU = false;
-                        break;
-                    case KeyEvent.VK_DOWN:
-                        bD = false;
-                        break;
-                    default:
-                        break;
-                }
-            }
+            setMainTainkDir();
         }
+
+
+        // 抬起按钮触发
+        @Override
+        public void keyReleased(KeyEvent e) {
+            System.out.println("key released");
+            int key = e.getKeyCode();
+            System.out.println("-----------------");
+            switch (key) {
+                case KeyEvent.VK_LEFT:
+                    bL = false;
+                    break;
+                case KeyEvent.VK_RIGHT:
+                    bR = false;
+                    break;
+                case KeyEvent.VK_UP:
+                    bU = false;
+                    break;
+                case KeyEvent.VK_DOWN:
+                    bD = false;
+                    break;
+                default:
+                    break;
+            }
+            setMainTainkDir();
+        }
+
+        private void setMainTainkDir() {
+            if (bL) tank.setDir(Dir.LEFT);
+            if (bU) tank.setDir(Dir.UP);
+            if (bR) tank.setDir(Dir.RIGHT);
+            if (bD) tank.setDir(Dir.DOWN);
+
+        }
+
+    }
+
 
 }
