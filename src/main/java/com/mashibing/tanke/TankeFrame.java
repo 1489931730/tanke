@@ -1,15 +1,12 @@
 package com.mashibing.tanke;
 
-import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
-import com.sun.xml.internal.ws.api.model.wsdl.WSDLOutput;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.w3c.dom.ls.LSOutput;
-
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Auther: mfy
@@ -18,10 +15,12 @@ import java.awt.event.WindowEvent;
  */
 public class TankeFrame extends Frame {
 
-    Tank tank = new Tank(200, 200, Dir.DOWN,this);
-
-    Bullet bullet = new Bullet(220, 220, Dir.DOWN);
-    static final int GAME_WIDTH = 800, GAME_HEIGHT = 800;
+    Tank tank = new Tank(200, 400, Dir.DOWN,this);
+    List<Bullet> bulletList = new ArrayList<>();
+    // Bullet bullet = new Bullet(220, 220, Dir.DOWN);
+    static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
+    // 敌方坦克
+    List<Tank> tanks = new ArrayList<>();
 
     public TankeFrame() {
         this.setVisible(true);
@@ -58,9 +57,29 @@ public class TankeFrame extends Frame {
 
     @Override
     public void paint(Graphics graphics) {
-
+        Color color = graphics.getColor();
+        graphics.setColor(Color.WHITE);
+        graphics.drawString("子弹的数量"+bulletList.size(),10,60);
+        graphics.drawString("敌人坦克的数量"+tanks.size(),10,80);
+        graphics.setColor(color);
         tank.paint(graphics);
-        bullet.paint(graphics);
+        //bullet.paint(graphics);
+//        for (Bullet bullet : bulletList) {
+//            bullet.paint(graphics);
+//        }
+        for (int i = 0; i < bulletList.size(); i++) {
+            bulletList.get(i).paint(graphics);
+        }
+        for (int i = 0; i < tanks.size(); i++) {
+            tanks.get(i).paint(graphics);
+        }
+        // 子弹和坦克碰撞检测
+        for (int i = 0; i < bulletList.size(); i++) {
+            for (int i1 = 0; i1 < tanks.size(); i1++) {
+                bulletList.get(i).collideWith(tanks.get(i1));
+            }
+
+        }
     }
 
     // 处理键盘事件
