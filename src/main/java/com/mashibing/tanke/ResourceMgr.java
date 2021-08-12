@@ -1,6 +1,7 @@
 package com.mashibing.tanke;
 
 import javax.imageio.ImageIO;
+import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 
@@ -10,22 +11,26 @@ import java.io.IOException;
  * @Description: com.mashibing.tanke
  */
 public class ResourceMgr {
-    public static BufferedImage tankL,tankU,tankR,tankD;
-    public static BufferedImage bulletL, bulletU,bulletR,bulletD;
-    static{
+    public static BufferedImage tankL, tankU, tankR, tankD;
+    public static BufferedImage bulletL, bulletU, bulletR, bulletD;
+    public static BufferedImage[] explodes = new BufferedImage[16];
+
+    static {
         try {
             // 坦克方向
-            tankD = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tankD.gif"));
-            tankU = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tankU.gif"));
-            tankR = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tankR.gif"));
-            tankL = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/tankL.gif"));
+            tankU = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/GoodTank1.png"));
+            tankD = ImageUtil.rotateImage(tankU,180);
+            tankR = ImageUtil.rotateImage(tankU,90);
+            tankL = ImageUtil.rotateImage(tankU,-90);
             // 子弹方向
-            bulletD = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletD.gif"));
             bulletU = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletU.gif"));
-            bulletR = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletR.gif"));
-            bulletL = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletL.gif"));
+            bulletD = ImageUtil.rotateImage(bulletU,180);
+            bulletR = ImageUtil.rotateImage(bulletU,90);
+            bulletL = ImageUtil.rotateImage(bulletU,-90);
 
-            System.out.println(tankL);
+            for (int i = 0; i < 16; i++) {
+                explodes[i] = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/e" + (i + 1) + ".gif"));
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

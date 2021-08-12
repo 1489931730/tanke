@@ -1,6 +1,7 @@
 package com.mashibing.tanke;
 
 import java.awt.*;
+import java.util.Random;
 
 /**
  * @Auther: mfy
@@ -11,21 +12,24 @@ import java.awt.*;
 public class Tank {
     private int x, y;
     private Dir dir = Dir.DOWN;
-    private static final int SPEED = 10;
+    private static final int SPEED = 4;
 
     private boolean moving = true;
     private TankeFrame tf = null;
     public boolean living = true;
-
+    private Random random = new Random();
+    // 坦克好坏区分
+    private Group group = Group.BAD;
     public static int WIDTH = ResourceMgr.tankD.getWidth();
     public static int HEIGHT = ResourceMgr.tankD.getHeight();
 
 
-    public Tank(int x, int y, Dir dir, TankeFrame tf) {
+    public Tank(int x, int y, Dir dir, Group group, TankeFrame tf) {
         this.x = x;
         this.y = y;
         this.dir = dir;
         this.tf = tf;
+        this.group = group;
     }
 
     public void paint(Graphics graphics) {
@@ -50,6 +54,8 @@ public class Tank {
     }
 
     private void move() {
+        // 坦克随机发射子弹
+        if (random.nextInt(10) > 5) this.fire();
 
         if (!moving) return;
         switch (dir) {
@@ -66,6 +72,14 @@ public class Tank {
                 y += SPEED;
                 break;
         }
+    }
+
+    public Group getGroup() {
+        return group;
+    }
+
+    public void setGroup(Group group) {
+        this.group = group;
     }
 
     public Dir getDir() {
@@ -103,7 +117,7 @@ public class Tank {
     public void fire() {
         int bX = this.x + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
         int bY = this.y + Tank.HEIGHT / 2 - Bullet.WIDTH / 2;
-        tf.bulletList.add(new Bullet(bX, bY, this.dir, this.tf));
+        tf.bulletList.add(new Bullet(bX, bY, this.dir,this.group, this.tf));
     }
 
     public void die() {

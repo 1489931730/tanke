@@ -15,12 +15,14 @@ import java.util.List;
  */
 public class TankeFrame extends Frame {
 
-    Tank tank = new Tank(200, 400, Dir.DOWN,this);
+    Tank tank = new Tank(200, 400, Dir.DOWN, Group.GOOD, this);
     List<Bullet> bulletList = new ArrayList<>();
     // Bullet bullet = new Bullet(220, 220, Dir.DOWN);
-    static final int GAME_WIDTH = 800, GAME_HEIGHT = 600;
+    static final int GAME_WIDTH = 1080, GAME_HEIGHT = 960;
     // 敌方坦克
     List<Tank> tanks = new ArrayList<>();
+
+    Explode explode = new Explode(tank.getX(), tank.getY(), this);
 
     public TankeFrame() {
         this.setVisible(true);
@@ -38,20 +40,21 @@ public class TankeFrame extends Frame {
     }
 
     Image offScreenImage = null;
+
     //解决双缓冲
     @Override
-    public void update(Graphics graphics){
+    public void update(Graphics graphics) {
 
-        if (offScreenImage == null){
-            offScreenImage = this.createImage(GAME_WIDTH,GAME_HEIGHT);
+        if (offScreenImage == null) {
+            offScreenImage = this.createImage(GAME_WIDTH, GAME_HEIGHT);
         }
         Graphics gOffScreen = offScreenImage.getGraphics();
         Color color = gOffScreen.getColor();
         gOffScreen.setColor(Color.BLACK);
-        gOffScreen.fillRect(0,0,GAME_WIDTH,GAME_HEIGHT);
+        gOffScreen.fillRect(0, 0, GAME_WIDTH, GAME_HEIGHT);
         gOffScreen.setColor(color);
         paint(gOffScreen);
-        graphics.drawImage(offScreenImage,0,0,null);
+        graphics.drawImage(offScreenImage, 0, 0, null);
     }
 
 
@@ -59,8 +62,8 @@ public class TankeFrame extends Frame {
     public void paint(Graphics graphics) {
         Color color = graphics.getColor();
         graphics.setColor(Color.WHITE);
-        graphics.drawString("子弹的数量"+bulletList.size(),10,60);
-        graphics.drawString("敌人坦克的数量"+tanks.size(),10,80);
+        graphics.drawString("子弹的数量" + bulletList.size(), 10, 60);
+        graphics.drawString("敌人坦克的数量" + tanks.size(), 10, 80);
         graphics.setColor(color);
         tank.paint(graphics);
         //bullet.paint(graphics);
@@ -78,8 +81,10 @@ public class TankeFrame extends Frame {
             for (int i1 = 0; i1 < tanks.size(); i1++) {
                 bulletList.get(i).collideWith(tanks.get(i1));
             }
-
         }
+
+        // 图片爆炸效果
+        explode.paint(graphics);
     }
 
     // 处理键盘事件

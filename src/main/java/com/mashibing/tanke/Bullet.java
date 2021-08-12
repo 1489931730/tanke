@@ -23,18 +23,21 @@ public class Bullet {
 
     private boolean living = true;
 
-    public Bullet(int x, int y, Dir dir,TankeFrame tankeFrame) {
+    private Group group = Group.BAD;
+
+    public Bullet(int x, int y, Dir dir, Group group, TankeFrame tankeFrame) {
         this.x = x;
         this.y = y;
         this.dir = dir;
+        this.group = group;
         this.tankeFrame = tankeFrame;
     }
 
     public void paint(Graphics graphics) {
-        if (!living){
+        if (!living) {
             tankeFrame.bulletList.remove(this);
         }
-        switch(dir){
+        switch (dir) {
             case LEFT:
                 graphics.drawImage(ResourceMgr.bulletL, x, y, null);
                 break;
@@ -72,9 +75,10 @@ public class Bullet {
     }
 
     public void collideWith(Tank tank) {
-        Rectangle rectangle = new Rectangle(this.x,this.y,WIDTH,HEIGHT);
-        Rectangle rectangle2 = new Rectangle(tank.getX(),tank.getY(),Tank.WIDTH,Tank.HEIGHT);
-        if (rectangle.intersects(rectangle2)){
+        if (this.group == tank.getGroup()) return;
+        Rectangle rectangle = new Rectangle(this.x, this.y, WIDTH, HEIGHT);
+        Rectangle rectangle2 = new Rectangle(tank.getX(), tank.getY(), Tank.WIDTH, Tank.HEIGHT);
+        if (rectangle.intersects(rectangle2)) {
             tank.die();
             this.die();
         }
