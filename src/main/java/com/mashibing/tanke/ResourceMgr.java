@@ -11,17 +11,23 @@ import java.io.IOException;
  * @Description: com.mashibing.tanke
  */
 public class ResourceMgr {
-    public static BufferedImage tankL, tankU, tankR, tankD;
+    public static BufferedImage goodTankL, goodTankU, goodTankR, goodTankD;
+    public static BufferedImage badTankL, badTankU, badTankR, badTankD;
     public static BufferedImage bulletL, bulletU, bulletR, bulletD;
     public static BufferedImage[] explodes = new BufferedImage[16];
 
     static {
         try {
-            // 坦克方向
-            tankU = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/GoodTank1.png"));
-            tankD = ImageUtil.rotateImage(tankU,180);
-            tankR = ImageUtil.rotateImage(tankU,90);
-            tankL = ImageUtil.rotateImage(tankU,-90);
+            // 好坦克方向
+            goodTankU = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/GoodTank1.png"));
+            goodTankD = ImageUtil.rotateImage(goodTankU,180);
+            goodTankR = ImageUtil.rotateImage(goodTankU,90);
+            goodTankL = ImageUtil.rotateImage(goodTankU,-90);
+            // 坏坦克方向
+            badTankU = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/BadTank2.png"));
+            badTankD = ImageUtil.rotateImage(badTankU,180);
+            badTankR = ImageUtil.rotateImage(badTankU,90);
+            badTankL = ImageUtil.rotateImage(badTankU,-90);
             // 子弹方向
             bulletU = ImageIO.read(ResourceMgr.class.getClassLoader().getResourceAsStream("images/bulletU.gif"));
             bulletD = ImageUtil.rotateImage(bulletU,180);

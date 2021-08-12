@@ -20,8 +20,8 @@ public class Tank {
     private Random random = new Random();
     // 坦克好坏区分
     private Group group = Group.BAD;
-    public static int WIDTH = ResourceMgr.tankD.getWidth();
-    public static int HEIGHT = ResourceMgr.tankD.getHeight();
+    public static int WIDTH = ResourceMgr.goodTankU.getWidth();
+    public static int HEIGHT = ResourceMgr.goodTankU.getHeight();
 
 
     public Tank(int x, int y, Dir dir, Group group, TankeFrame tf) {
@@ -37,16 +37,16 @@ public class Tank {
         if (!living) tf.tanks.remove(this);
         switch (dir) {
             case LEFT:
-                graphics.drawImage(ResourceMgr.tankL, x, y, null);
+                graphics.drawImage(this.group==Group.GOOD?ResourceMgr.goodTankL : ResourceMgr.badTankL, x, y, null);
                 break;
             case RIGHT:
-                graphics.drawImage(ResourceMgr.tankR, x, y, null);
+                graphics.drawImage(this.group==Group.GOOD?ResourceMgr.goodTankR : ResourceMgr.badTankR, x, y, null);
                 break;
             case UP:
-                graphics.drawImage(ResourceMgr.tankU, x, y, null);
+                graphics.drawImage(this.group==Group.GOOD?ResourceMgr.goodTankU : ResourceMgr.badTankU, x, y, null);
                 break;
             case DOWN:
-                graphics.drawImage(ResourceMgr.tankD, x, y, null);
+                graphics.drawImage(this.group==Group.GOOD?ResourceMgr.goodTankD : ResourceMgr.badTankD, x, y, null);
                 break;
         }
 
