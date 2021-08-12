@@ -24,6 +24,7 @@ public class Tank {
     private Group group = Group.BAD;
     public static int WIDTH = ResourceMgr.goodTankU.getWidth();
     public static int HEIGHT = ResourceMgr.goodTankU.getHeight();
+    Rectangle rectangle = new Rectangle();
 
 
     public Tank(int x, int y, Dir dir, Group group, TankeFrame tf) {
@@ -32,6 +33,11 @@ public class Tank {
         this.dir = dir;
         this.tf = tf;
         this.group = group;
+
+        rectangle.x = this.x;
+        rectangle.y = this.y;
+        rectangle.width = WIDTH;
+        rectangle.height = HEIGHT;
     }
 
     public void paint(Graphics graphics) {
@@ -72,6 +78,8 @@ public class Tank {
                 y += SPEED;
                 break;
         }
+        rectangle.x = this.x;
+        rectangle.y = this.y;
         // 坦克随机发射子弹
         if (this.group == Group.BAD && random.nextInt(100) > 95) {
             this.fire();
