@@ -31,7 +31,7 @@ public class Explode {
     public void paint(Graphics graphics) {
 
         graphics.drawImage(ResourceMgr.explodes[step++], x, y, null);
-        if (step >= ResourceMgr.explodes.length) step = 0;
+        if (step >= ResourceMgr.explodes.length) tankeFrame.explodes.remove(this);
     }
 }
 

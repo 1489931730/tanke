@@ -21,8 +21,7 @@ public class TankeFrame extends Frame {
     static final int GAME_WIDTH = 1080, GAME_HEIGHT = 960;
     // 敌方坦克
     List<Tank> tanks = new ArrayList<>();
-
-    Explode explode = new Explode(tank.getX(), tank.getY(), this);
+    List<Explode> explodes = new ArrayList<>();
 
     public TankeFrame() {
         this.setVisible(true);
@@ -64,6 +63,7 @@ public class TankeFrame extends Frame {
         graphics.setColor(Color.WHITE);
         graphics.drawString("子弹的数量" + bulletList.size(), 10, 60);
         graphics.drawString("敌人坦克的数量" + tanks.size(), 10, 80);
+        graphics.drawString("爆炸的数量" + explodes.size(), 10, 100);
         graphics.setColor(color);
         tank.paint(graphics);
         //bullet.paint(graphics);
@@ -76,6 +76,9 @@ public class TankeFrame extends Frame {
         for (int i = 0; i < tanks.size(); i++) {
             tanks.get(i).paint(graphics);
         }
+        for (int i = 0; i < explodes.size(); i++) {
+            explodes.get(i).paint(graphics);
+        }
         // 子弹和坦克碰撞检测
         for (int i = 0; i < bulletList.size(); i++) {
             for (int i1 = 0; i1 < tanks.size(); i1++) {
@@ -84,7 +87,6 @@ public class TankeFrame extends Frame {
         }
 
         // 图片爆炸效果
-        explode.paint(graphics);
     }
 
     // 处理键盘事件
