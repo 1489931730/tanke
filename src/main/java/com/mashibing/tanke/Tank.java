@@ -1,5 +1,7 @@
 package com.mashibing.tanke;
 
+import com.sun.org.apache.bcel.internal.generic.IF_ACMPEQ;
+
 import java.awt.*;
 import java.util.Random;
 
@@ -37,16 +39,16 @@ public class Tank {
         if (!living) tf.tanks.remove(this);
         switch (dir) {
             case LEFT:
-                graphics.drawImage(this.group==Group.GOOD?ResourceMgr.goodTankL : ResourceMgr.badTankL, x, y, null);
+                graphics.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankL : ResourceMgr.badTankL, x, y, null);
                 break;
             case RIGHT:
-                graphics.drawImage(this.group==Group.GOOD?ResourceMgr.goodTankR : ResourceMgr.badTankR, x, y, null);
+                graphics.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankR : ResourceMgr.badTankR, x, y, null);
                 break;
             case UP:
-                graphics.drawImage(this.group==Group.GOOD?ResourceMgr.goodTankU : ResourceMgr.badTankU, x, y, null);
+                graphics.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankU : ResourceMgr.badTankU, x, y, null);
                 break;
             case DOWN:
-                graphics.drawImage(this.group==Group.GOOD?ResourceMgr.goodTankD : ResourceMgr.badTankD, x, y, null);
+                graphics.drawImage(this.group == Group.GOOD ? ResourceMgr.goodTankD : ResourceMgr.badTankD, x, y, null);
                 break;
         }
 
@@ -77,6 +79,16 @@ public class Tank {
         if (this.group == Group.BAD && random.nextInt(100) > 95) {
             this.randomDir();
         }
+        this.bounsCheck();
+    }
+
+    // 边界检测
+    private void bounsCheck() {
+
+        if (this.x < 2) x = 2;
+        if (this.y < 30) y = 30;
+        if (this.x > TankeFrame.GAME_WIDTH - Tank.WIDTH - 2) x = TankeFrame.GAME_WIDTH - Tank.WIDTH - 2;
+        if (this.y > TankeFrame.GAME_HEIGHT - Tank.HEIGHT - 2) y = TankeFrame.GAME_HEIGHT - Tank.HEIGHT - 2;
     }
 
     private void randomDir() {
