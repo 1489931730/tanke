@@ -54,8 +54,6 @@ public class Tank {
     }
 
     private void move() {
-        // 坦克随机发射子弹
-        if (random.nextInt(10) > 5) this.fire();
 
         if (!moving) return;
         switch (dir) {
@@ -72,6 +70,17 @@ public class Tank {
                 y += SPEED;
                 break;
         }
+        // 坦克随机发射子弹
+        if (this.group == Group.BAD && random.nextInt(100) > 95) {
+            this.fire();
+        }
+        if (this.group == Group.BAD && random.nextInt(100) > 95) {
+            this.randomDir();
+        }
+    }
+
+    private void randomDir() {
+        this.dir = Dir.values()[random.nextInt(4)];
     }
 
     public Group getGroup() {
@@ -117,7 +126,7 @@ public class Tank {
     public void fire() {
         int bX = this.x + Tank.HEIGHT / 2 - Bullet.HEIGHT / 2;
         int bY = this.y + Tank.HEIGHT / 2 - Bullet.WIDTH / 2;
-        tf.bulletList.add(new Bullet(bX, bY, this.dir,this.group, this.tf));
+        tf.bulletList.add(new Bullet(bX, bY, this.dir, this.group, this.tf));
     }
 
     public void die() {

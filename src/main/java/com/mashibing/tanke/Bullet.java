@@ -81,7 +81,10 @@ public class Bullet {
         if (rectangle.intersects(rectangle2)) {
             tank.die();
             this.die();
-            tankeFrame.explodes.add(new Explode(x, y, tankeFrame));
+            // 爆炸位置在坦克所在中心点
+            int eX = tank.getX()+Tank.WIDTH/2-Explode.WIDTH/2;
+            int eY = tank.getY()+Tank.HEIGHT/2-Explode.HEIGHT/2;
+            tankeFrame.explodes.add(new Explode(eX, eY, tankeFrame));
         }
     }
 
